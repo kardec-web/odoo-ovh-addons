@@ -1,0 +1,28 @@
+# Flakes8
+
+## Project Page
+http://flake8.pycqa.org/en/latest/index.html#quickstart
+
+## Installation
+It can be installed with:
+pip install --upgrade flake8
+
+## Test a file
+flake8 path/to/code/to/check.py
+# or
+flake8 path/to/code/
+
+## rcfile 
+flake8 crummy_code.py --config=.flakerc
+
+# https://addyosmani.com/blog/custom-sublime-text-build-systems-for-popular-tools-and-languages/
+http://sublimelinter.readthedocs.io/en/latest/settings.html
+
+xmlint
+install http://cygwin.com/ x64
+install libxml2, libxml2-devel, libxslt, libxslt-devel from cygwin
+C:\Tools\libxml\bin
+
+cssling
+npm install npm -g
+npm install -g csslint

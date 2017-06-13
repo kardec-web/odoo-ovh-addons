@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="ovh_log_tree">
+			<field name="name">ovh.log.tree</field>
+			<field name="model">ovh.log</field>
+			<field name="arch" type="xml">
+				<tree string="OVH Logs"  colors="rgb(138, 109, 59):log_type == 'warning';rgb(169, 68, 66):log_type == 'error'">
+					<field name="name"/>
+					<field name="date_log"/>
+					<field name="log_type"/>
+					<field name="message"/>
+				</tree>
+			</field>
+		</record>
+
+
+
+
+		<record model="ir.ui.view" id="ovh_log_form">
+			<field name="name">ovh.log.form</field>
+			<field name="model">ovh.log</field>
+			<field name="arch" type="xml">
+				<form string="Log">
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<field name="name" default_focus="1" placeholder="Nichandle" />
+							</h1>
+						</div>
+						<group>
+							<field name="date_log"/>
+							<field name="log_type"/>
+							<field name="message"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="ovh_log_search">
+			<field name="name">ovh.log.search</field>
+			<field name="model">ovh.log</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name"/>
+
+					<filter name="error" string="Errors" domain="[('log_type', '=', 'error')]"/>
+					<filter name="warning" string="Warnings" domain="[('log_type', '=', 'warning')]"/>
+				</search>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="ovh_log_action">
+			<field name="name">OVH Logs</field>
+			<field name="res_model">ovh.log</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+			<p class="oe_view_nocontent_create">Create a new log</p>
+			</field>
+		</record>
+
+		<menuitem action="ovh_log_action" id="ovh_menu_log" name="OVH Logs" parent="ovh_menu"/>
+
+	</data>
+</openerp>

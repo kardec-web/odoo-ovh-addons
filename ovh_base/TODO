@@ -1,0 +1,15 @@
+TODO:
+
+* Restrict OVH Access Rules
+* Refactor the code for hav only one ovh.client
+* Improve the authentification for have Consumer Key
+* Add unique fields
+V Ajouter log (chatter)
+* add tasks
+* add security rules on ovh models
+* Rajouter dans la recherche des domaines, les comptes is_ovh et nichandle, les domaines actifs et expirés
+* Remove log after x times
+* Separate Vacation modul from mailbox module
+* OVH domain en no one
+* 
+http://primercss.io/
