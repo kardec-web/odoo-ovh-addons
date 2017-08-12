@@ -20,23 +20,21 @@
 ##############################################################################
 
 {
-    'name': 'OVH Fetch Domains',
+    'name': 'OVH Sync Mailboxes',
     'category': 'Tools',
-    'summary': 'Fetch your OVH domains.',
-    'version': '0.1',
-    'licence': 'GPL-3',
-    'description': """
-        
-        """,
+    'summary': 'Fetch your OVH Mailboxes.',
+    'version': '10.0.1.0.0',
+    'license': 'GPL-3',
     'author': 'Kardec',
     'website': 'https://www.kardec.net',
     'depends': [
         'ovh_base',
-        'it_domain',
+        'it_mailbox',
     ],
     'data': [
         'data/scheduler.xml',
-        'views/domain.xml',
+        'views/alias.xml',
+        # 'views/domain.xml',
     ],
     'application': True,
     'external_dependencies': {

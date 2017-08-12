@@ -1,6 +1,24 @@
 # -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Kardec
+#    Copyright (C) 2016-Today Kardec (<http://www.kardec.net>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
 import ovh
-
 from openerp import models, fields, api
 
 
@@ -9,13 +27,13 @@ class OVHAccount(models.Model):
     _order = 'name'
 
     name = fields.Char(string="Nichandle")
-    legalform = fields.Char(string="Legal Form")
-    state = fields.Char(string="State")
+    legal_form = fields.Char()
+    state = fields.Char()
     email = fields.Char(string="E-mail")
-    phone = fields.Char(string="Phone")
-    firstname = fields.Char(string="Firstname")
-    lastname = fields.Char(string="Lastname")
-    vat = fields.Char(string="Vat")
+    phone = fields.Char()
+    firstname = fields.Char()
+    lastname = fields.Char()
+    vat = fields.Char()
 
     @api.model
     def fetch_ovh_account_cron(self):

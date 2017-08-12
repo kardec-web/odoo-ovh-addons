@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-	<data>
-		
-		<record id="it_domain_form" model="ir.ui.view">
-			<field name="name">it.domain.mailbox.form</field>
-			<field name="model">it.domain</field>
-			<field name="inherit_id" ref="it_domain.it_domain_form"/>
-			<field name="arch" type="xml">
-				
-				<group name="options" position="inside">
-					<field name="is_ovh_domain" />
-				</group>
+<odoo>
+    <record id="it_domain_form" model="ir.ui.view">
+        <field name="name">it.domain.mailbox.form</field>
+        <field name="model">it.domain</field>
+        <field name="inherit_id" ref="it_domain.it_domain_form"/>
+        <field name="arch" type="xml">
 
-				<notebook position="inside">
-					<page name="ovh" string="OVH" attrs="{'invisible': [('is_ovh_domain', '=', False)]}">
-						<group>
-							<field name="ovh_account"/>
-							<field name="last_synchronisation"/>
-							<field name="ovh_status"/>
-							<field name="ovh_creation_date"/>
-							<field name="show_domain_zone"/>
-							<field name="domain_zone" attrs="{'invisible': [('show_domain_zone', '=', False)]}"/>
-						</group>
-					</page>
-				</notebook>
-			</field>
-		</record>
+            <group name="options" position="inside">
+                <field name="is_ovh_domain" />
+            </group>
 
-	</data>
-</openerp>
+            <notebook position="inside">
+                <page name="ovh" string="OVH" attrs="{'invisible': [('is_ovh_domain', '=', False)]}">
+                    <group>
+                        <field name="ovh_account"/>
+                        <field name="last_synchronisation"/>
+                        <field name="ovh_status"/>
+                        <field name="ovh_creation_date"/>
+                        <field name="show_domain_zone"/>
+                        <field name="domain_zone" attrs="{'invisible': [('show_domain_zone', '=', False)]}"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

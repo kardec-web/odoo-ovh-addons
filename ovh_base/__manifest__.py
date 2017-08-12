@@ -20,24 +20,20 @@
 ##############################################################################
 
 {
-    'name': 'OVH Sync Mailboxes',
+    'name': 'OVH',
     'category': 'Tools',
-    'summary': 'Fetch your OVH Mailboxes.',
-    'version': '0.1',
-    'licence': 'GPL-3',
-    'description': """
-        
-        """,
+    'version': '10.0.1.0.0',
+    'license': 'GPL-3',
     'author': 'Kardec',
     'website': 'https://www.kardec.net',
-    'depends': [
-        'ovh_base',
-        'it_mailbox',
-    ],
+    'depends': [],
     'data': [
+        'security/user_group.xml',
+        'security/ir.model.access.csv',
+        'views/ovh-credentials.xml',
+        'views/ovh-account.xml',
+        'views/ovh-log.xml',
         'data/scheduler.xml',
-        'views/alias.xml',
-        # 'views/domain.xml',
     ],
     'application': True,
     'external_dependencies': {

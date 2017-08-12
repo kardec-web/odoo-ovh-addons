@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-	<data>
-		
-		<record model="ir.ui.view" id="it_domain_form">
-			<field name="name">it.domain.mailbox.form</field>
-			<field name="model">it.domain</field>
-			<field name="inherit_id" ref="it_domain.it_domain_form"/>
-			<field name="arch" type="xml">
-				
-				<div class="oe_title" position="after"> 
-					<group>
-						<field name="is_ovh_domain" />
-					</group>
-				</div>
+<odoo>
+    <record model="ir.ui.view" id="it_domain_form">
+        <field name="name">it.domain.mailbox.form</field>
+        <field name="model">it.domain</field>
+        <field name="inherit_id" ref="it_domain.it_domain_form"/>
+        <field name="arch" type="xml">
 
-				<group name="fields" position="after">
-					<group string="OVH" attrs="{'invisible': [('is_ovh_domain', '=', False)]}">
-						<field name="ovh_account"/>
-						<field name="last_synchronisation"/>
-						<!-- <field name="last_ovh_update"/> -->
-						<field name="ovh_status"/>
-						<field name="ovh_creation_date"/>
-						<field name="domain_zone"/>
-					</group>
-				</group>
-			</field>
-		</record>
+            <div class="oe_title" position="after">
+                <group>
+                    <field name="is_ovh_domain" />
+                </group>
+            </div>
 
-	</data>
-</openerp>
+            <group name="fields" position="after">
+                <group string="OVH" attrs="{'invisible': [('is_ovh_domain', '=', False)]}">
+                    <field name="ovh_account"/>
+                    <field name="last_synchronisation"/>
+                    <!-- <field name="last_ovh_update"/> -->
+                    <field name="ovh_status"/>
+                    <field name="ovh_creation_date"/>
+                    <field name="domain_zone"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

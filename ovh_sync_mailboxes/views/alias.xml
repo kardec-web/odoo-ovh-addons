@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-	<data>
-		
-		<record model="ir.ui.view" id="it_mailbox_alias_form">
-			<field name="name">it.mailbox.alias.form</field>
-			<field name="model">it.mailbox.alias</field>
-			<field name="inherit_id" ref="it_mailbox.it_mailbox_alias_form"/>
-			<field name="arch" type="xml">
+<odoo>
+    <record model="ir.ui.view" id="it_mailbox_alias_form">
+        <field name="name">it.mailbox.alias.form</field>
+        <field name="model">it.mailbox.alias</field>
+        <field name="inherit_id" ref="it_mailbox.it_mailbox_alias_form"/>
+        <field name="arch" type="xml">
 
-				<group position="after">
-					<group string="OVH" >
-						<field name="ovh_id"/>
-						<field name="last_synchronisation"/>
-					</group>
-				</group>
-			</field>
-		</record>
-
-
-	</data>
-</openerp>
+            <group position="after">
+                <group string="OVH" >
+                    <field name="ovh_id"/>
+                    <field name="last_synchronisation"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

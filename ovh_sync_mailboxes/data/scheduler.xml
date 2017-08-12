@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data noupdate="1">
-        <record id="ir_cron_sync_mailboxes_scheduler_action" model="ir.cron">
-            <field name="name">Fetch OVH Mailboxes scheduler</field>
-            <field name="user_id" ref="base.user_root"/>
-            <field name="interval_number">1</field>
-            <field name="interval_type">weeks</field>
-            <field name="numbercall">-1</field>
-            <field eval="False" name="doall"/>
-            <field eval="'it.mailbox'" name="model"/>
-            <field eval="'sync_mailboxes_cron'" name="function"/>
-        </record>
+<odoo noupdate="1">
+    <record id="ir_cron_sync_mailboxes_scheduler_action" model="ir.cron">
+        <field name="name">Fetch OVH Mailboxes scheduler</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall"/>
+        <field eval="'it.mailbox'" name="model"/>
+        <field eval="'sync_mailboxes_cron'" name="function"/>
+    </record>
 
-        <record id="ir_cron_sync_alias_scheduler_action" model="ir.cron">
-            <field name="name">Fetch OVH Alias scheduler</field>
-            <field name="user_id" ref="base.user_root"/>
-            <field name="interval_number">1</field>
-            <field name="interval_type">weeks</field>
-            <field name="numbercall">-1</field>
-            <field eval="False" name="doall"/>
-            <field eval="'it.mailbox.alias'" name="model"/>
-            <field eval="'sync_aliases_cron'" name="function"/>
-        </record>
-   </data>
-</openerp>
+    <record id="ir_cron_sync_alias_scheduler_action" model="ir.cron">
+        <field name="name">Fetch OVH Alias scheduler</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall"/>
+        <field eval="'it.mailbox.alias'" name="model"/>
+        <field eval="'sync_aliases_cron'" name="function"/>
+    </record>
+</odoo>
