@@ -27,7 +27,7 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="legalform"/>
+                        <field name="legal_form"/>
                         <field name="state"/>
                         <field name="firstname"/>
                         <field name="lastname"/>

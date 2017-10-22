@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="it_server_form" model="ir.ui.view">
+        <field name="name">it.server.form</field>
+        <field name="model">it.server</field>
+        <field name="inherit_id" ref="it_server.it_server_form"/>
+        <field name="arch" type="xml">
+
+            <field name="domain_id" position="after">
+                <field name="is_ovh_server" />
+            </field>
+
+            <notebook position="inside">
+                <page name="ovh" string="OVH" attrs="{'invisible': [('is_ovh_server', '=', False)]}">
+                    <group>
+                        <field name="ovh_account"/>
+                        <field name="last_synchronisation"/>
+                        <field name="ovh_status"/>
+                        <field name="ovh_server_id"/>
+                        <field name="ovh_monitoring"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

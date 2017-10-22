@@ -51,7 +51,7 @@ class OVHAccount(models.Model):
             me = client.get('/me')
             values = {
                 'name': me['nichandle'],
-                'legalform': me['legalform'],
+                'legal_form': me['legalform'],
                 'state': me['state'],
                 'email': me['email'],
                 'phone': me['phone'],

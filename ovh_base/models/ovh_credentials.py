@@ -47,12 +47,13 @@ class OVHCredentials(models.Model):
     application_key = fields.Char()
     application_secret = fields.Char()
     consumer_key = fields.Char()
-    consumer_key_status = fields.Char()
     active = fields.Boolean(default=True)
 
     @api.multi
     def generate_consumer_key(self):
         for record in self:
+            if not record.endpoint:
+                raise UserError(_("You should specify an endpoint!"))
             client = ovh.Client(
                 endpoint=record.endpoint,
                 application_key=record.application_key,
