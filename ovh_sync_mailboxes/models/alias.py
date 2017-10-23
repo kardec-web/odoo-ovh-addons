@@ -25,13 +25,16 @@ from openerp import models, fields, api
 class OVHAlias(models.Model):
     _inherit = 'it.mailbox.alias'
 
-    ovh_id = fields.Integer(index=True)
+    ovh_id = fields.Char(index=True)
     last_synchronisation = fields.Datetime()
 
     @api.model
     def sync_aliases_cron(self):
         ovh_credenials = self.env['ovh.credentials'].search(
             [('consumer_key', '!=', False)])
+
+        it_mailbox_alias_env = self.env['it.mailbox.alias'].sudo()
+        it_domain_env = self.env['it.domain'].sudo()
 
         for ovh_credential in ovh_credenials:
             client = ovh.Client(
@@ -43,7 +46,7 @@ class OVHAlias(models.Model):
 
             domains = client.get('/email/domain')
             for cdomain in domains:
-                domain = self.env['it.domain'].sudo().search(
+                domain = it_domain_env.search(
                     [('name', '=', cdomain)])
 
                 if domain:
@@ -52,18 +55,20 @@ class OVHAlias(models.Model):
 
                     for ovh_alias_id in ovh_alias_ids:
                         ovh_alias = client.get(
-                            "/email/domain/%s/redirection/%s" % (cdomain, ovh_alias_id))
+                            "/email/domain/%s/redirection/%s" %
+                            (cdomain, ovh_alias_id))
 
                         values = {
-                            'ovh_id': int(ovh_alias_id),
+                            'ovh_id': ovh_alias_id,
                             'last_synchronisation': fields.Datetime.now(),
                             'active': True,
                             'domain': domain.id,
-                            'name': ovh_alias['from'].replace('@' + domain.name, ''),
+                            'name': ovh_alias['from'].replace(
+                                '@' + domain.name, ''),
                             'goto': ovh_alias['to'],
                         }
 
-                        alias = self.env['it.mailbox.alias'].sudo().search([
+                        alias = it_mailbox_alias_env.search([
                             ("|"),
                             ('ovh_id', '=', values['ovh_id']),
                             ('name', '=', values['name'])
@@ -72,4 +77,4 @@ class OVHAlias(models.Model):
                         if alias:
                             alias.write(values)
                         else:
-                            self.env['it.mailbox.alias'].sudo().create(values)
+                            it_mailbox_alias_env.create(values)

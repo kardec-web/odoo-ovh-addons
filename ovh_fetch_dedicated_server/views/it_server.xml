@@ -23,4 +23,35 @@
             </notebook>
         </field>
     </record>
+
+    <record id="it_server_tree" model="ir.ui.view">
+        <field name="name">it.server.tree</field>
+        <field name="model">it.server</field>
+        <field name="inherit_id" ref="it_server.it_server_tree"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="ovh_account"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="it_server_search" model="ir.ui.view">
+        <field name="name">it.server.search</field>
+        <field name="model">it.server</field>
+        <field name="inherit_id" ref="it_server.it_server_search"/>
+        <field name="arch" type="xml">
+            <field name="ip_ids" position="after">
+                <field name="ovh_account"/>
+            </field>
+
+            <filter name="it_server_virtual" position="after">
+                <filter name="it_server_ovh_account" string="Has OVH Account" domain="[('ovh_account', '!=', False)]"/>
+
+                <group expand="1" string="Group By">
+                      <filter string="OVH Account" name="ovh_account" context="{'group_by':'ovh_account'}"/>
+                </group>
+            </filter>
+
+        </field>
+    </record>
 </odoo>

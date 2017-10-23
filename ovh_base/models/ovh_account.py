@@ -40,6 +40,7 @@ class OVHAccount(models.Model):
         ovh_credenials = self.env['ovh.credentials'].search(
             [('consumer_key', '!=', False)])
 
+        ovh_account_env = self.env['ovh.account'].sudo()
         for ovh_credential in ovh_credenials:
             client = ovh.Client(
                 endpoint=ovh_credential.endpoint,
@@ -59,12 +60,12 @@ class OVHAccount(models.Model):
                 'lastname': me['name'],
             }
 
-            ovh_account = self.env['ovh.account'].sudo().search(
+            ovh_account = ovh_account_env.search(
                 [('name', '=', me['nichandle'])])
             if ovh_account:
                 ovh_account.write(values)
             else:
-                self.env['ovh.account'].sudo().create(values)
+                ovh_account_env.create(values)
 
             ovh_credential.write({
                 'account': ovh_account.id

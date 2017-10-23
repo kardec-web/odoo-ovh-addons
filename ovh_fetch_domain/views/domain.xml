@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record model="ir.ui.view" id="it_domain_tree">
+        <field name="name">it.domain.tree</field>
+        <field name="model">it.domain</field>
+        <field name="inherit_id" ref="it_domain.it_domain_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_expiration" position="after">
+                <field name="ovh_account"/>
+            </field>
+        </field>
+    </record>
+
     <record id="it_domain_form" model="ir.ui.view">
         <field name="name">it.domain.mailbox.form</field>
         <field name="model">it.domain</field>
@@ -22,6 +33,25 @@
                     </group>
                 </page>
             </notebook>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="it_domain_search">
+        <field name="name">it.domain.search</field>
+        <field name="model">it.domain</field>
+        <field name="inherit_id" ref="it_domain.it_domain_search"/>
+        <field name="arch" type="xml">
+            <field name="customer" position="after">
+                <field name="ovh_account"/>
+            </field>
+
+            <filter name="system" position="after">
+                <filter name="it_domain_ovh_account" string="Has OVH Account" domain="[('ovh_account', '!=', False)]"/>
+
+                <group expand="1" string="Group By">
+                      <filter string="OVH Account" name="it_domain_ovh_account" context="{'group_by':'ovh_account'}"/>
+                </group>
+            </filter>
         </field>
     </record>
 </odoo>

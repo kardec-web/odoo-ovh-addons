@@ -29,7 +29,7 @@ class OVHServer(models.Model):
 
     is_ovh_server = fields.Boolean(string="OVH Server")
     last_synchronisation = fields.Datetime()
-    ovh_account = fields.Many2one('ovh.account', string="Account")
+    ovh_account = fields.Many2one('ovh.account')
     ovh_status = fields.Char(string="Status")
     ovh_server_id = fields.Char(string="Server Id")
     ovh_monitoring = fields.Char(string="Monitored By OVH")

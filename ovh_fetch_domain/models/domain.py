@@ -35,7 +35,7 @@ class OVHDomain(models.Model):
     domain_zone = fields.Text(string="Bind Zone")
     ovh_status = fields.Char(string="Status")
     ovh_creation_date = fields.Date(string="Creation date")
-    ovh_account = fields.Many2one('ovh.account', string="Account")
+    ovh_account = fields.Many2one('ovh.account')
 
     @api.model
     def fetch_domain_cron(self):
