@@ -18,17 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
-
-
-class OVHLog(models.Model):
-    _name = 'ovh.log'
-    _order = 'date_log'
-
-    name = fields.Char()
-    date_log = fields.Datetime(string="Date")
-    log_type = fields.Selection([
-        ('warning', 'Warning'),
-        ('error', 'Error')
-    ], string="Type", index=True)
-    message = fields.Text()
+import models

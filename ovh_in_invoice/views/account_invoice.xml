@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="invoice_supplier_form" model="ir.ui.view">
+        <field name="name">account.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="ovh" string="OVH">
+                    <group>
+                         <field name="is_ovh_invoice" />
+                         <field name="ovh_account_id" />
+                         <field name="ovh_html_url" widget="url" />
+                        <field name="ovh_pdf_url" widget="url" />
+                        <field name="ovh_order_id" />
+                        <field name="ovh_payment_date" />
+                        <field name="ovh_payment_identifier" />
+                        <field name="ovh_payment_type" />
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.invoice.select</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <field name="date" position="after">
+                <field name="ovh_account_id" />
+            </field>
+
+            <filter name="late" position="after">
+                <filter string="OVH Invoices" name="is_ovh_invoice" domain="[('is_ovh_invoice','=',True)]"/>
+            </filter>
+
+            <group position="after">
+                <filter string="OVH Account" context="{'group_by':'ovh_account_id'}"/>
+            </group>
+        </field>
+    </record>
+</odoo>

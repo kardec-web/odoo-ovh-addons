@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ovh_partner" model="res.partner" forcecreate="False">
+        <field name="name">OVH</field>
+        <field name="street">2 rue kellermann BP 80157</field>
+        <field name="zip">59053</field>
+        <field name="city">Roubaix</field>
+        <field name="phone">+33 972 10 10 07</field>
+        <field name="website">http://www.ovh.com</field>
+        <field name="is_company">True</field>
+        <field name="vat">FR22424761419</field>
+        <field name="supplier">True</field>
+         <field name="image" type="base64" file="ovh_in_invoice/static/src/img/ovh_attachement.png"/>
+    </record>
+</odoo>

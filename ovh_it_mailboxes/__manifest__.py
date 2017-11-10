@@ -28,13 +28,13 @@
     'author': 'Kardec',
     'website': 'https://www.kardec.net',
     'depends': [
-        'ovh_base',
         'it_mailbox',
+        'ovh_base',
+        'ovh_it_domain',
     ],
     'data': [
         'data/scheduler.xml',
         'views/alias.xml',
-        # 'views/domain.xml',
     ],
     'application': True,
     'external_dependencies': {

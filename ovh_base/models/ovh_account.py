@@ -18,15 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import ovh
+import logging
 from openerp import models, fields, api
+
+_logger = logging.getLogger(__name__)
 
 
 class OVHAccount(models.Model):
     _name = 'ovh.account'
     _order = 'name'
 
-    name = fields.Char(string="Nichandle")
+    name = fields.Char(string="Nichandle", index=True)
     legal_form = fields.Char()
     state = fields.Char()
     email = fields.Char(string="E-mail")
@@ -37,19 +39,17 @@ class OVHAccount(models.Model):
 
     @api.model
     def fetch_ovh_account_cron(self):
-        ovh_credenials = self.env['ovh.credentials'].search(
-            [('consumer_key', '!=', False)])
+        _logger.info('Fetch OVH account Cron Start')
+        ovh_credenials = ovh_credenials = self.env[
+            'ovh.credentials'].get_credentials()
 
         ovh_account_env = self.env['ovh.account'].sudo()
-        for ovh_credential in ovh_credenials:
-            client = ovh.Client(
-                endpoint=ovh_credential.endpoint,
-                application_key=ovh_credential.application_key,
-                application_secret=ovh_credential.application_secret,
-                consumer_key=ovh_credential.consumer_key,
-            )
 
-            me = client.get('/me')
+        for ovh_credential in ovh_credenials:
+            client = ovh_credential.make_client()
+
+            me = ovh_credential.ovh_get(
+                client, '/me')
             values = {
                 'name': me['nichandle'],
                 'legal_form': me['legalform'],
@@ -68,5 +68,7 @@ class OVHAccount(models.Model):
                 ovh_account_env.create(values)
 
             ovh_credential.write({
-                'account': ovh_account.id
+                'account_id': ovh_account.id
             })
+
+        _logger.info('Fetch OVH account Cron End')

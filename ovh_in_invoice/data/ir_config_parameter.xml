@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_config_parameter_" model="ir.config_parameter">
+        <field name="key">ovh.in_voice.from_date</field>
+        <field name="value" eval="(DateTime.now()).strftime('%Y-01-01')" />
+    </record>
+</odoo>

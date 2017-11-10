@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="it_domain.it_domain_tree"/>
         <field name="arch" type="xml">
             <field name="date_expiration" position="after">
-                <field name="ovh_account"/>
+                <field name="ovh_account_id"/>
             </field>
         </field>
     </record>
@@ -24,7 +24,7 @@
             <notebook position="inside">
                 <page name="ovh" string="OVH" attrs="{'invisible': [('is_ovh_domain', '=', False)]}">
                     <group>
-                        <field name="ovh_account"/>
+                        <field name="ovh_account_id"/>
                         <field name="last_synchronisation"/>
                         <field name="ovh_status"/>
                         <field name="ovh_creation_date"/>
@@ -42,14 +42,14 @@
         <field name="inherit_id" ref="it_domain.it_domain_search"/>
         <field name="arch" type="xml">
             <field name="customer" position="after">
-                <field name="ovh_account"/>
+                <field name="ovh_account_id"/>
             </field>
 
             <filter name="system" position="after">
-                <filter name="it_domain_ovh_account" string="Has OVH Account" domain="[('ovh_account', '!=', False)]"/>
+                <filter name="it_domain_ovh_account_id" string="Has OVH Account" domain="[('ovh_account_id', '!=', False)]"/>
 
                 <group expand="1" string="Group By">
-                      <filter string="OVH Account" name="it_domain_ovh_account" context="{'group_by':'ovh_account'}"/>
+                      <filter string="OVH Account" name="it_domain_ovh_account_id" context="{'group_by':'ovh_account_id'}"/>
                 </group>
             </filter>
         </field>

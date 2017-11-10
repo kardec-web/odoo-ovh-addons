@@ -32,7 +32,6 @@
         'security/ir.model.access.csv',
         'views/ovh-credentials.xml',
         'views/ovh-account.xml',
-        'views/ovh-log.xml',
         'data/scheduler.xml',
     ],
     'application': True,

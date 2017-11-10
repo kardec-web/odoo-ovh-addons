@@ -19,21 +19,22 @@
 #
 ##############################################################################
 import ovh
-from ovh.exceptions import (
-    APIError
-)
+from ovh.exceptions import APIError
+import logging
 
 from openerp import models, fields, api
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
 import openerp.tools as tools
 
+_logger = logging.getLogger(__name__)
+
 
 class OVHCredentials(models.Model):
     _name = 'ovh.credentials'
 
     name = fields.Char(string="Description", required=True, index=True)
-    account = fields.Many2one(
+    account_id = fields.Many2one(
         'ovh.account', index=True)
     endpoint = fields.Selection([
         ('ovh-eu', 'OVH Europe API'),
@@ -106,3 +107,34 @@ class OVHCredentials(models.Model):
             raise UserError(
                 _("Connection Test Succeeded!\nWelcome %s\n"
                     "Everything seems properly set up!" % result['firstname']))
+
+    @api.model
+    def get_credentials(self):
+        return self.env['ovh.credentials'].search(
+            [('consumer_key', '!=', False)])
+
+    @api.multi
+    def ovh_get(self, client, url, error_return=False, **params):
+        self.ensure_one()
+
+        _logger.info('OVH API - GET: %s on %s', url, self.account_id.name)
+
+        try:
+            return client.get(url, **params)
+        except APIError as e:
+            _logger.error(tools.ustr(e))
+
+        return error_return
+
+    @api.multi
+    def make_client(self):
+        self.ensure_one()
+
+        _logger.info('OVH API - Create CLient: %s', self.account_id.name)
+
+        return ovh.Client(
+            endpoint=self.endpoint,
+            application_key=self.application_key,
+            application_secret=self.application_secret,
+            consumer_key=self.consumer_key,
+        )

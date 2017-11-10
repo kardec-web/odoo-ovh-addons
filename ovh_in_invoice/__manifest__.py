@@ -18,5 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import ovh_credentials
-import ovh_account
+
+{
+    'name': 'OVH Invoices',
+    'category': 'Tools',
+    'version': '10.0.1.0.0',
+    'license': 'GPL-3',
+    'author': 'Kardec',
+    'website': 'https://www.kardec.net',
+    'depends': [
+        'ovh_base',
+        'account',
+    ],
+    'data': [
+        'data/scheduler.xml',
+        'data/res_partner.xml',
+        'data/ir_config_parameter.xml',
+        'views/account_invoice.xml',
+    ],
+    'application': True,
+    'external_dependencies': {
+        # pip install ovh
+        'python': ['ovh'],
+    }
+}

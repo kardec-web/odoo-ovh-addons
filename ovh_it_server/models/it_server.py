@@ -18,47 +18,44 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import ovh
+import logging
 from openerp import models, fields, api
 
 # https://eu.api.ovh.com/console/#/dedicated/server/%7BserviceName%7D#GET
+_logger = logging.getLogger(__name__)
 
 
 class OVHServer(models.Model):
     _inherit = 'it.server'
 
-    is_ovh_server = fields.Boolean(string="OVH Server")
+    is_ovh_server = fields.Boolean(string="OVH Server", index=True)
     last_synchronisation = fields.Datetime()
-    ovh_account = fields.Many2one('ovh.account')
+    ovh_account_id = fields.Many2one('ovh.account', index=True)
     ovh_status = fields.Char(string="Status")
     ovh_server_id = fields.Char(string="Server Id")
     ovh_monitoring = fields.Char(string="Monitored By OVH")
 
     @api.model
     def fetch_dedicated_server_cron(self):
-
-        ovh_credenials = self.env['ovh.credentials'].search(
-            [('consumer_key', '!=', False)])
+        _logger.info('Fetch OVH Dedicated server cron Start')
+        ovh_credenials = self.env['ovh.credentials'].get_credentials()
 
         server_ip_env = self.env['it.server.ip'].sudo()
         server_env = self.env['it.server'].sudo()
         domain_env = self.env['it.domain'].sudo()
-        for ovh_credential in ovh_credenials:
-            client = ovh.Client(
-                endpoint=ovh_credential.endpoint,
-                application_key=ovh_credential.application_key,
-                application_secret=ovh_credential.application_secret,
-                consumer_key=ovh_credential.consumer_key,
-            )
 
-            servers = client.get('/dedicated/server')
+        for ovh_credential in ovh_credenials:
+            client = ovh_credential.make_client()
+
+            servers = ovh_credential.ovh_get(
+                client, '/dedicated/server')
             for cserver in servers:
                 values = {
                     'is_ovh_server': True,
                     'last_synchronisation': fields.Datetime.now(),
                 }
-                if ovh_credential.account:
-                    values['ovh_account'] = ovh_credential.account.id
+                if ovh_credential.account_id:
+                    values['ovh_account_id'] = ovh_credential.account_id.id
 
                 domain = domain_env.search([
                     ('name', '=', cserver)
@@ -68,7 +65,8 @@ class OVHServer(models.Model):
                     server = server_env.search(
                         [('technical_domain_id', '=', domain.id)])
 
-                server_infos = client.get(
+                server_infos = ovh_credential.ovh_get(
+                    client,
                     "/dedicated/server/%s" % cserver)
 
                 values['ovh_status'] = server_infos['state']
@@ -80,16 +78,21 @@ class OVHServer(models.Model):
                 if server:
                     server.write(values)
                 else:
-                    domain_id = domain_env.create({
+                    domain = domain_env.create({
                         'name': cserver,
                         'system': True
-                    }).id
+                    })
 
-                    values['technical_domain_id'] = domain_id
-                    values['domain_id'] = domain_id
+                    values['technical_domain_id'] = domain.id
+                    values['domain_id'] = domain.id
                     server = server_env.create(values)
 
-                ips = client.get(
+                domain.write({
+                    'has_server': True
+                })
+
+                ips = ovh_credential.ovh_get(
+                    client,
                     "/dedicated/server/%s/ips" % cserver)
                 server_ip_env.search([
                     ('server_id', '=', server.id),
@@ -106,3 +109,4 @@ class OVHServer(models.Model):
                             'name': ip,
                             'server_id': server.id,
                         })
+        _logger.info('Fetch OVH Dedicated server cron End')

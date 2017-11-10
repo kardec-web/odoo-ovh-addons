@@ -13,7 +13,7 @@
             <notebook position="inside">
                 <page name="ovh" string="OVH" attrs="{'invisible': [('is_ovh_server', '=', False)]}">
                     <group>
-                        <field name="ovh_account"/>
+                        <field name="ovh_account_id"/>
                         <field name="last_synchronisation"/>
                         <field name="ovh_status"/>
                         <field name="ovh_server_id"/>
@@ -30,7 +30,7 @@
         <field name="inherit_id" ref="it_server.it_server_tree"/>
         <field name="arch" type="xml">
             <field name="tag_ids" position="after">
-                <field name="ovh_account"/>
+                <field name="ovh_account_id"/>
             </field>
         </field>
     </record>
@@ -41,17 +41,16 @@
         <field name="inherit_id" ref="it_server.it_server_search"/>
         <field name="arch" type="xml">
             <field name="ip_ids" position="after">
-                <field name="ovh_account"/>
+                <field name="ovh_account_id"/>
             </field>
 
             <filter name="it_server_virtual" position="after">
-                <filter name="it_server_ovh_account" string="Has OVH Account" domain="[('ovh_account', '!=', False)]"/>
-
-                <group expand="1" string="Group By">
-                      <filter string="OVH Account" name="ovh_account" context="{'group_by':'ovh_account'}"/>
-                </group>
+                <filter name="it_server_ovh_account_id" string="Has OVH Account" domain="[('ovh_account_id', '!=', False)]"/>
             </filter>
 
+            <group position="inside">
+                  <filter string="OVH Account" name="ovh_account_id" context="{'group_by':'ovh_account_id'}"/>
+            </group>
         </field>
     </record>
 </odoo>

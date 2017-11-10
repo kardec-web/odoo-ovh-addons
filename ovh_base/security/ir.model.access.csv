@@ -5,6 +5,3 @@
 "ovh_account_manager","OVH Account Administrator","model_ovh_account","ovh_admin",1,1,1,1
 "ovh_account_read_all","OVH Account All","model_ovh_account",,1,0,0,0
 "ovh_account_public","OVH Account Public","model_ovh_account","base.group_public",1,0,0,0
-"ovh_log_manager","OVH Log Administrator","model_ovh_log","ovh_admin",1,1,1,1
-"ovh_log_read_all","OVH Log All","model_ovh_log",,1,0,0,0
-"ovh_log_public","OVH Log Public","model_ovh_log","base.group_public",1,0,0,0
