@@ -48,7 +48,7 @@ class OVHServer(models.Model):
             client = ovh_credential.make_client()
 
             servers = ovh_credential.ovh_get(
-                client, '/dedicated/server')
+                client, '/dedicated/server', [])
             for cserver in servers:
                 values = {
                     'is_ovh_server': True,

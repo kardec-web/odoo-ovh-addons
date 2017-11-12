@@ -23,6 +23,35 @@ install http://cygwin.com/ x64
 install libxml2, libxml2-devel, libxslt, libxslt-devel from cygwin
 C:\Tools\libxml\bin
 
-cssling
+csslint
 npm install npm -g
 npm install -g csslint
+
+
+ sudo pip install --upgrade git+https://github.com/oca/pylint-odoo.git
+  306  pylint --load-plugins=pylint_odoo -d all -e odoolint .
+  307  pylint --load-plugins=pylint_odoo -d all -e odoolint it_base/
+  311  pylint --load-plugins=pylint_odoo -d all -e odoolint it_base/
+  312  pylint --load-plugins=pylint_odoo -d all -e odoolint it_base/ --generate-rcfile
+  313  pylint --load-plugins=pylint_odoo -d all -e odoolint it_base/ --generate-rcfile  > .pylintrc
+  314  pylint --load-plugins=pylint_odoo -d all -e odoolint it_base/
+  315  pylint --load-plugins=pylint_odoo -d all -e odoolint .
+  316  pylint --load-plugins=pylint_odoo -d all -e odoolint ./*
+  317  pylint  -d all -e odoolint ./*
+  318  pylint ./*
+  319  pylint  -d all -e odoolint ./*
+  320  pylint --load-plugins=pylint_odoo -d all -e odoolint ./*
+  321  pylint  -d all -e odoolint ./*
+  322  pylint --load-plugins=pylint_odoo -d all -e odoolint ./*
+  327  pylint --load-plugins=pylint_odoo -d all -e odoolint ./*
+  328  pylint -h
+  329  pylint --load-plugins=pylint_odoo -d all ./*
+  330  pylint -h
+  331  pylint --load-plugins=pylint_odoo  -e odoolint ./*
+  332  pylint --load-plugins=pylint_odoo -d all -e odoolint ./* --disable-msg=C7902
+  333  pylint --load-plugins=pylint_odoo --disable-msg=C7902  -d all -e odoolint ./* 
+  334  pylint -h
+  335  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
+  340  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
+  346  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
+  349  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*

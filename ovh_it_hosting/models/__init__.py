@@ -18,23 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': 'OVH Sync Mailboxes',
-    'category': 'Tools',
-    'summary': 'Fetch your OVH Mailboxes.',
-    'version': '10.0.1.0.0',
-    'license': 'GPL-3',
-    'author': 'Kardec',
-    'website': 'https://www.kardec.net',
-    'depends': [
-        'it_mailbox',
-        'ovh_base',
-        'ovh_it_domain',
-    ],
-    'data': [
-        'data/scheduler.xml',
-        'views/alias.xml',
-    ],
-    'application': True,
-}
+import it_hosting

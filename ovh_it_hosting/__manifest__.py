@@ -20,21 +20,24 @@
 ##############################################################################
 
 {
-    'name': 'OVH Sync Mailboxes',
+    'name': 'OVH Fetch Hosting',
     'category': 'Tools',
-    'summary': 'Fetch your OVH Mailboxes.',
+    'summary': 'Fetch your Hosting.',
     'version': '10.0.1.0.0',
     'license': 'GPL-3',
     'author': 'Kardec',
     'website': 'https://www.kardec.net',
     'depends': [
-        'it_mailbox',
         'ovh_base',
-        'ovh_it_domain',
+        'it_hosting',
     ],
     'data': [
         'data/scheduler.xml',
-        'views/alias.xml',
+        'views/it_hosting.xml',
     ],
     'application': True,
+    'external_dependencies': {
+        # pip install ovh
+        'python': ['ovh'],
+    }
 }

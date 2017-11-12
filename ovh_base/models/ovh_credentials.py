@@ -18,8 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import ovh
-from ovh.exceptions import APIError
+
 import logging
 
 from openerp import models, fields, api
@@ -28,6 +27,12 @@ from openerp.exceptions import UserError
 import openerp.tools as tools
 
 _logger = logging.getLogger(__name__)
+
+try:
+    import ovh
+    from ovh.exceptions import APIError
+except (ImportError, IOError) as err:
+    _logger.debug(err)
 
 
 class OVHCredentials(models.Model):
@@ -70,8 +75,7 @@ class OVHCredentials(models.Model):
             try:
                 validation = client.request_consumerkey(access_rules)
             except APIError as e:
-                raise UserError(
-                    _("%s") % tools.ustr(e))
+                raise UserError(tools.ustr(e))
 
             record.write({
                 'consumer_key_status':  validation['state'],

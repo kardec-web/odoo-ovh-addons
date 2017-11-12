@@ -4,7 +4,7 @@
         <field name="name">ovh.account.tree</field>
         <field name="model">ovh.account</field>
         <field name="arch" type="xml">
-            <tree string="OVH Accounts" >
+            <tree>
                 <field name="name"/>
                 <field name="state"/>
                 <field name="firstname"/>

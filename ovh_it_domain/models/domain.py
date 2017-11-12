@@ -43,6 +43,13 @@ class OVHDomain(models.Model):
         _logger.info('Fetch OVH Domain Cron Start')
         ovh_credenials = self.env['ovh.credentials'].get_credentials()
 
+        it_domain_env = self.env['it.domain'].sudo()
+        active_domain = [
+            '|',
+            ('active', '=', True),
+            ('active', '=', False),
+        ]
+
         for ovh_credential in ovh_credenials:
             client = ovh_credential.make_client()
             # /domain/zone/{zoneName}/record
@@ -57,8 +64,9 @@ class OVHDomain(models.Model):
                 if ovh_credential.account_id:
                     values['ovh_account_id'] = ovh_credential.account_id.id
 
-                domain_name = self.env['it.domain'].sudo().search(
-                    [('name', '=', cdomain)])
+                domain_name = it_domain_env.search([
+                    ('name', '=', cdomain)
+                ] + active_domain)
 
                 values['domain_zone'] = ovh_credential.ovh_get(
                     client,
@@ -70,6 +78,7 @@ class OVHDomain(models.Model):
 
                 if serviceInfos:
                     values['name'] = cdomain
+                    values['active'] = serviceInfos['status'] == 'ok'
                     values['ovh_status'] = serviceInfos['status']
                     values['date_expiration'] = serviceInfos['expiration']
                     values['ovh_creation_date'] = serviceInfos['creation']
@@ -77,4 +86,4 @@ class OVHDomain(models.Model):
                 if domain_name:
                     domain_name.write(values)
                 else:
-                    self.env['it.domain'].sudo().create(values)
+                    it_domain_env.create(values)
