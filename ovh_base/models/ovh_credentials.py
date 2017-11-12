@@ -54,6 +54,13 @@ class OVHCredentials(models.Model):
     application_secret = fields.Char()
     consumer_key = fields.Char()
     active = fields.Boolean(default=True)
+    owner_id = fields.Many2one(
+        'res.partner', string="Owner", required=True,
+        default=lambda self: self._default_owner())
+
+    @api.model
+    def _default_owner(self):
+        return self.env.ref('base.main_company').id
 
     @api.multi
     def generate_consumer_key(self):

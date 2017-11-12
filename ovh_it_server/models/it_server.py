@@ -30,7 +30,8 @@ class OVHServer(models.Model):
 
     is_ovh_server = fields.Boolean(string="OVH Server", index=True)
     last_synchronisation = fields.Datetime()
-    ovh_account_id = fields.Many2one('ovh.account', index=True)
+    ovh_account_id = fields.Many2one(
+        'ovh.account', string="Ovh Account", index=True)
     ovh_status = fields.Char(string="Status")
     ovh_server_id = fields.Char(string="Server Id")
     ovh_monitoring = fields.Char(string="Monitored By OVH")
@@ -69,6 +70,7 @@ class OVHServer(models.Model):
                     client,
                     "/dedicated/server/%s" % cserver)
 
+                values['owner_id'] = ovh_credential.owner_id.id
                 values['ovh_status'] = server_infos['state']
                 values['os'] = server_infos['os']
                 values['ovh_server_id'] = server_infos['serverId']
