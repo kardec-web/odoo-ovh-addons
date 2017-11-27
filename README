@@ -55,3 +55,11 @@ npm install -g csslint
   340  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
   346  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
   349  pylint --load-plugins=pylint_odoo --disable=C7902 -d all -e odoolint ./*
+
+
+
+coverage run ./odoo/odoo-bin -c odoo.conf -d test_it --test-enable --log-level=error --log-handler=odoo.modules.loading:INFO --stop-after-init -i it_base,it_server,it_developer,it_domain,it_hosting,it_mailbox,it_server,it_server_proxmox && coverage report -i
+
+
+
+coverage run ./odoo/odoo-bin -c odoo.conf -d test_it --test-enable --log-level=error --log-handler=odoo.modules.loading:INFO --stop-after-init -i ovh_base,ovh_in_invoice,ovh_it_domain,ovh_it_hosting,ovh_it_mailboxes,ovh_it_server && coverage report -i

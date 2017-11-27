@@ -50,6 +50,7 @@ class OVHAccount(models.Model):
 
             me = ovh_credential.ovh_get(
                 client, '/me')
+            print ':::::::::::::' + str(me['nichandle'])
             values = {
                 'name': me['nichandle'],
                 'legal_form': me['legalform'],
@@ -60,12 +61,13 @@ class OVHAccount(models.Model):
                 'lastname': me['name'],
             }
 
-            ovh_account = ovh_account_env.search(
-                [('name', '=', me['nichandle'])])
+            ovh_account = ovh_account_env.search([
+                ('name', '=', me['nichandle'])
+            ])
             if ovh_account:
                 ovh_account.write(values)
             else:
-                ovh_account_env.create(values)
+                ovh_account = ovh_account_env.create(values)
 
             ovh_credential.write({
                 'account_id': ovh_account.id

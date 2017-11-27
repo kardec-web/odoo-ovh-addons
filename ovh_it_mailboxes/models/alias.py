@@ -62,7 +62,7 @@ class OVHAlias(models.Model):
                             'ovh_id': ovh_alias_id,
                             'last_synchronisation': fields.Datetime.now(),
                             'active': True,
-                            'domain': domain.id,
+                            'domain_id': domain.id,
                             'name': ovh_alias['from'].replace(
                                 '@' + domain.name, ''),
                             'goto': ovh_alias['to'],

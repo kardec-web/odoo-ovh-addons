@@ -73,7 +73,7 @@ class OVHMailbox(models.Model):
                         values = {
                             'active': ovh_mailbox_data['isBlocked'] is False,
                             'name': ovh_mailbox_name,
-                            'domain': domain.id,
+                            'domain_id': domain.id,
                             'description': ovh_mailbox_data['description'],
                             'last_synchronisation': fields.Datetime.now(),
                             'quota': ovh_mailbox_data['size'] / 1000,
