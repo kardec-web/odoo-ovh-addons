@@ -128,6 +128,91 @@ class OVHServer(models.Model):
                             'server_id': server.id,
                         })
 
-                # Hardware
-
         _logger.info('Fetch OVH Dedicated server cron End')
+
+    @api.model
+    def fetch_vps_server_cron(self):
+        _logger.info('Fetch OVH VPS server cron Start')
+        ovh_credenials = self.env['ovh.credentials'].get_credentials()
+
+        server_ip_env = self.env['it.server.ip'].sudo()
+        server_env = self.env['it.server'].sudo()
+        domain_env = self.env['it.domain'].sudo()
+
+        for ovh_credential in ovh_credenials:
+            client = ovh_credential.make_client()
+
+            servers = ovh_credential.ovh_get(
+                client, '/vps', [])
+            for cserver in servers:
+                _logger.info('VPS: %s' % cserver)
+                values = {
+                    'is_ovh_server': True,
+                    'last_synchronisation': fields.Datetime.now(),
+                }
+                if ovh_credential.account_id:
+                    values['ovh_account_id'] = ovh_credential.account_id.id
+
+                domain = domain_env.search([
+                    ('name', '=', cserver)
+                ])
+                server = False
+                if domain:
+                    server = server_env.search(
+                        [('technical_domain_id', '=', domain.id)])
+
+                server_infos = ovh_credential.ovh_get(
+                    client,
+                    "/vps/%s" % cserver)
+
+                distribution_infos = ovh_credential.ovh_get(
+                    client,
+                    "/vps/%s/distribution" % cserver)
+
+                print str(distribution_infos)
+
+                values['owner_id'] = ovh_credential.owner_id.id
+                values['ovh_status'] = server_infos['state']
+                values['os'] = distribution_infos['name']
+                values['ovh_monitoring'] = server_infos['slaMonitoring']
+                values['server_type'] = 'virtual'
+                values['cpu'] = server_infos['vcore']
+                values['memory'] = server_infos['memoryLimit'] / 1024
+                values['disk'] = server_infos['model']['disk']
+
+                if server:
+                    server.write(values)
+                else:
+                    domain = domain_env.create({
+                        'name': cserver,
+                        'system': True
+                    })
+
+                    values['technical_domain_id'] = domain.id
+                    values['domain_id'] = domain.id
+                    server = server_env.create(values)
+
+                domain.write({
+                    'has_server': True
+                })
+
+                ips = ovh_credential.ovh_get(
+                    client,
+                    "/vps/%s/ips" % cserver, [])
+                server_ip_env.search([
+                    ('server_id', '=', server.id),
+                    ('name', 'not in', ips),
+                ]).unlink()
+
+                server_ips = server_ip_env.search([
+                    ('server_id', '=', server.id),
+                ])
+                server_ips = [server_ip.name for server_ip in server_ips]
+                for ip in ips:
+                    if ip not in server_ips:
+                        server_ip_env.create({
+                            'name': ip,
+                            'server_id': server.id,
+                        })
+
+        _logger.info('Fetch OVH VPS server cron End')

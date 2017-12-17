@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
-    <record id="ir_cron_fetch_ovh_domain_scheduler_action" model="ir.cron">
+    <record id="ir_cron_fetch_ovh_dedicated_server_scheduler_action" model="ir.cron">
         <field name="name">Fetch OVH Dedicated server scheduler</field>
         <field name="user_id" ref="base.user_root"/>
         <field name="interval_number">1</field>
@@ -9,5 +9,16 @@
         <field eval="False" name="doall"/>
         <field eval="'it.server'" name="model"/>
         <field eval="'fetch_dedicated_server_cron'" name="function"/>
+    </record>
+
+    <record id="ir_cron_fetch_ovh_vps_scheduler_action" model="ir.cron">
+        <field name="name">Fetch OVH VPS server scheduler</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall"/>
+        <field eval="'it.server'" name="model"/>
+        <field eval="'fetch_vps_server_cron'" name="function"/>
     </record>
 </odoo>

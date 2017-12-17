@@ -20,9 +20,9 @@
 ##############################################################################
 
 {
-    'name': 'OVH Fetch Dedicated Server',
+    'name': 'OVH Servers',
     'category': 'Tools',
-    'summary': 'Fetch your Dedicated Server.',
+    'summary': 'OVH dedicated and vps Server.',
     'version': '10.0.1.0.0',
     'license': 'GPL-3',
     'author': 'Kardec',
