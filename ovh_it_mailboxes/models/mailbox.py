@@ -46,7 +46,7 @@ class OVHMailbox(models.Model):
             client = ovh_credential.make_client()
 
             domains = ovh_credential.ovh_get(
-                client, '/email/domain')
+                client, '/email/domain', [])
             for cdomain in domains:
                 domain = it_domain_env.search([
                     ('name', '=', cdomain)

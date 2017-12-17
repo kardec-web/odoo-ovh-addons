@@ -41,7 +41,7 @@
         <field name="model">it.domain</field>
         <field name="inherit_id" ref="it_domain.it_domain_search"/>
         <field name="arch" type="xml">
-            <field name="customer" position="after">
+            <field name="customer_id" position="after">
                 <field name="ovh_account_id"/>
             </field>
 

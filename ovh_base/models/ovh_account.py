@@ -50,7 +50,7 @@ class OVHAccount(models.Model):
 
             me = ovh_credential.ovh_get(
                 client, '/me')
-            print ':::::::::::::' + str(me['nichandle'])
+
             values = {
                 'name': me['nichandle'],
                 'legal_form': me['legalform'],

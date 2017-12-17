@@ -77,6 +77,22 @@ class OVHServer(models.Model):
                 values['ovh_monitoring'] = server_infos['monitoring']
                 values['server_type'] = 'dedicated'
 
+                hardware_infos = ovh_credential.ovh_get(
+                    client,
+                    "/dedicated/server/%s/specifications/hardware" % cserver,
+                    False)
+
+                if hardware_infos:
+                    values['cpu'] = hardware_infos['numberOfProcessors']
+                    values['memory'] = hardware_infos[
+                        'memorySize']['value'] / 1024
+                    disk_size = 0
+                    for disk_group in hardware_infos['diskGroups']:
+                        disk_size += disk_group['diskSize']['value']
+                    values['disk'] = disk_size
+
+                values['server_type'] = 'dedicated'
+
                 if server:
                     server.write(values)
                 else:
@@ -95,7 +111,7 @@ class OVHServer(models.Model):
 
                 ips = ovh_credential.ovh_get(
                     client,
-                    "/dedicated/server/%s/ips" % cserver)
+                    "/dedicated/server/%s/ips" % cserver, [])
                 server_ip_env.search([
                     ('server_id', '=', server.id),
                     ('name', 'not in', ips),
@@ -111,4 +127,7 @@ class OVHServer(models.Model):
                             'name': ip,
                             'server_id': server.id,
                         })
+
+                # Hardware
+
         _logger.info('Fetch OVH Dedicated server cron End')
