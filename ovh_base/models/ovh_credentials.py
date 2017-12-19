@@ -52,11 +52,13 @@ class OVHCredentials(models.Model):
     ])
     application_key = fields.Char()
     application_secret = fields.Char()
-    consumer_key = fields.Char()
+    consumer_key = fields.Char(index=True)
     active = fields.Boolean(default=True)
     owner_id = fields.Many2one(
         'res.partner', string="Owner", required=True,
         default=lambda self: self._default_owner())
+
+    is_customer_account = fields.Boolean(string="Customer Account", index=True)
 
     @api.model
     def _default_owner(self):
@@ -120,9 +122,12 @@ class OVHCredentials(models.Model):
                     "Everything seems properly set up!" % result['firstname']))
 
     @api.model
-    def get_credentials(self):
-        return self.env['ovh.credentials'].search(
-            [('consumer_key', '!=', False)])
+    def get_credentials(self, with_customer=True):
+        domain = [('consumer_key', '!=', False)]
+        if not with_customer:
+            domain.append(('is_customer_account', '=', False))
+
+        return self.env['ovh.credentials'].search(domain)
 
     @api.multi
     def ovh_get(self, client, url, error_return=False, **params):

@@ -42,7 +42,7 @@ class InInvoice(models.Model):
     @api.model
     def fetch_in_invoice_cron(self):
         _logger.info('Fetch OVH In Invoice Cron Start')
-        ovh_credenials = self.env['ovh.credentials'].get_credentials()
+        ovh_credenials = self.env['ovh.credentials'].get_credentials(False)
 
         account_invoice_env = self.env['account.invoice'].sudo()
         account_invoice_line_env = self.env['account.invoice.line'].sudo()
