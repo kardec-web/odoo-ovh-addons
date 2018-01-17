@@ -33,6 +33,7 @@
     'data': [
         'data/scheduler.xml',
         'data/res_partner.xml',
+        'data/product_product.xml',
         'data/ir_config_parameter.xml',
         'views/account_invoice.xml',
     ],
