@@ -18,8 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import requests
-import base64
 import logging
 
 from openerp import models, fields, api
@@ -46,15 +44,24 @@ class InInvoice(models.Model):
 
         account_invoice_env = self.env['account.invoice'].sudo()
         account_invoice_line_env = self.env['account.invoice.line'].sudo()
-        ir_attachment_invoice_env = self.env['ir.attachment'].sudo()
 
         ovh_partner = self.env.ref('ovh_in_invoice.ovh_partner')
         account_payable_id = ovh_partner.property_account_payable_id.id
+        ovh_product = self.env.ref('ovh_in_invoice.ovh_service')
+        default_company = self.env.ref('base.main_company')
 
         client_param = {
             'date.from': self.env['ir.config_parameter'].get_param(
                 'ovh.in_voice.from_date')
         }
+
+        purchase_journal = self.env['account.journal'].search([
+            ('type', '=', 'purchase')
+        ], limit=1)
+
+        fpos = ovh_partner.property_account_position_id
+        line_account = account_invoice_line_env.get_invoice_line_account(
+            'in_invoice', ovh_product, fpos, default_company)
 
         for ovh_credential in ovh_credenials:
             client = ovh_credential.make_client()
@@ -86,6 +93,7 @@ class InInvoice(models.Model):
                     'date_invoice': invoice_info['date'],
                     'partner_id': ovh_partner.id,
                     'account_id': account_payable_id,
+                    'journal_id': purchase_journal.id,
                 }
 
                 bill = account_invoice_env.create(values)
@@ -98,13 +106,15 @@ class InInvoice(models.Model):
                         client,
                         '/me/bill/%s/details/%s' % (invoice, invoice_detail))
 
-                    account_invoice_line_env.create({
+                    detail_obj = account_invoice_line_env.create({
                         'invoice_id': bill.id,
                         'name': detail['description'],
                         'quantity': detail['quantity'],
                         'price_unit': detail['unitPrice']['value'],
-                        'account_id': account_payable_id,
+                        'account_id': line_account.id,
+                        'product_id': ovh_product.id,
                     })
+                    detail_obj._set_taxes()
 
                 invoice_payment = ovh_credential.ovh_get(
                     client,
@@ -115,23 +125,12 @@ class InInvoice(models.Model):
                         'ovh_payment_identifier': invoice_payment[
                             'paymentIdentifier'],
                         'ovh_payment_type': invoice_payment['paymentType'],
-                        'state': 'paid'
                     })
                 else:
                     _logger.info('No payment found')
 
-                if False:
-                    ir_attachment_invoice_env.create({
-                        'name': 'OVH Bill - %s ' % invoice,
-                        'datas': self.get_ovh_pdf(invoice_info['pdfUrl']),
-                        'res_model': 'account.invoice',
-                        'res_id': bill.id,
-                    })
+                bill.action_invoice_open()
 
                 self.env.cr.commit()
 
         _logger.info('Fetch OVH In Invoice Cron End')
-
-    def get_ovh_pdf(self, pdf_url):
-        req = requests.get(pdf_url)
-        return base64.encodestring(req.content)
