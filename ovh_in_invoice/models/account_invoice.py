@@ -56,7 +56,8 @@ class InInvoice(models.Model):
         }
 
         purchase_journal = self.env['account.journal'].search([
-            ('type', '=', 'purchase')
+            ('type', '=', 'purchase'),
+            ('company_id', '=', default_company.id),
         ], limit=1)
 
         fpos = ovh_partner.property_account_position_id
